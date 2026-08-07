@@ -1,27 +1,39 @@
 services:
-  mariadb:
-    image: mariadb
-    container_name: mariadb
-    build: ./requirements/mariadb
-    secrets:
-      - databasepassword
-      - my_sql_rootpassword
-      - mysql_user
-    restart: on-failure
-    env_file:
-      - .env
+  # mariadb:
+  #   image: mariadb
+  #   container_name: mariadb
+  #   build: ./requirements/mariadb
+  #   secrets:
+  #     - databasepassword
+  #     - my_sql_rootpassword
+  #     - mysql_user
+  #   restart: on-failure
+  #   env_file:
+  #     - .env
   
-  wordpress:
-    image: wordpress
-    container_name: wordpress
-    build: ./requirements/wordpress
+  # wordpress:
+  #   image: wordpress
+  #   container_name: wordpress
+  #   build: ./requirements/wordpress
+  #   restart: on-failure
+  #   secrets:
+  #     - databasepassword
+  #     - wp_admin_password
+  #     - wp_user_password
+  #   env_file:
+  #     - .env
+  
+  nginx:
+    image: nginx
+    container_name: nginx
+    build: ./requirements/nginx
     restart: on-failure
-    secrets:
-      - databasepassword
-      - wp_admin_password
-      - wp_user_password
     env_file:
       - .env
+    # secrets:
+    #   - databasepassword
+    #   - wp_admin_password
+    #   - wp_user_password
 
 
 secrets:
