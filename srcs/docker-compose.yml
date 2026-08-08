@@ -1,39 +1,51 @@
 services:
-  # mariadb:
-  #   image: mariadb
-  #   container_name: mariadb
-  #   build: ./requirements/mariadb
-  #   secrets:
-  #     - databasepassword
-  #     - my_sql_rootpassword
-  #     - mysql_user
-  #   restart: on-failure
-  #   env_file:
-  #     - .env
+  mariadb:
+    image: inception-mariadb
+    container_name: mariadb
+    build: ./requirements/mariadb
+    restart: on-failure
+    networks:
+      - my_net
+    env_file:
+      - .env
+    secrets:
+      - databasepassword
+      - my_sql_rootpassword
+      - mysql_user
   
-  # wordpress:
-  #   image: wordpress
-  #   container_name: wordpress
-  #   build: ./requirements/wordpress
-  #   restart: on-failure
-  #   secrets:
-  #     - databasepassword
-  #     - wp_admin_password
-  #     - wp_user_password
-  #   env_file:
-  #     - .env
+  wordpress:
+    image: inception-wordpress
+    container_name: wordpress
+    build: ./requirements/wordpress
+    restart: on-failure
+    networks:
+      - my_net
+    env_file:
+      - .env
+    secrets:
+      - databasepassword
+      - wp_admin_password
+      - wp_user_password
   
   nginx:
-    image: nginx
+    image: inception-nginx
     container_name: nginx
     build: ./requirements/nginx
     restart: on-failure
+    networks:
+      - my_net
     env_file:
       - .env
+    ports:
+      - "443:443"
     # secrets:
     #   - databasepassword
     #   - wp_admin_password
     #   - wp_user_password
+
+networks:
+  my_net:
+    driver: bridge
 
 
 secrets:
