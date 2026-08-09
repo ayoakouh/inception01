@@ -6,6 +6,8 @@ services:
     restart: on-failure
     networks:
       - my_net
+    volumes:
+      - mariadb_data:/var/lib/mysql
     env_file:
       - .env
     secrets:
@@ -20,6 +22,8 @@ services:
     restart: on-failure
     networks:
       - my_net
+    volumes:
+      - wordpress_data:/var/www/html
     env_file:
       - .env
     secrets:
@@ -47,6 +51,21 @@ networks:
   my_net:
     driver: bridge
 
+
+volumes:
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ayoakouh/data/mariadb
+      o: bind
+
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ayoakouh/data/wordpress
+      o: bind
 
 secrets:
   databasepassword:
