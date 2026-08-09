@@ -35,11 +35,15 @@ services:
     image: inception-nginx
     container_name: nginx
     build: ./requirements/nginx
-    restart: on-failure
+    restart: on-failure 
     networks:
       - my_net
-    env_file:
-      - .env
+    volumes:
+      - wordpress_data:/var/www/html
+    # env_file:
+    #   - .env
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     # secrets:
