@@ -1,17 +1,17 @@
 COMPOSE = docker compose -f srcs/docker-compose.yml
 
-DATA_DIRS = /home/$(USER)/data/mariadb /home/$(USER)/data/mwordpress#/home/$(USER)/data/wordpress 
+DATA_DIRS = /home/ayoakouh/data/mariadb /home/ayoakouh/data/wordpress
 
 all: 
 	@echo "🔧 Building and 🚀 Starting containers..."
-	@mkdir -p $(DATA_DIRS)
+	@sudo mkdir -p /home/ayoakouh/data/mariadb /home/ayoakouh/data/wordpress 
 	$(COMPOSE) up --build -d
 
 down:
 	@echo "🛑 Stopping containers..."
 	$(COMPOSE) down -v
 
-clean: downdocker 
+clean: down
 
 fclean: clean
 	@echo "🗑  Deleting data directories ..."

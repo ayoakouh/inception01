@@ -1,11 +1,11 @@
 services:
   mariadb:
-    image: inception-mariadb
+    image: mariadb:1337
     container_name: mariadb
     build: ./requirements/mariadb
     restart: on-failure
     networks:
-      - my_net
+      - my-net 
     volumes:
       - mariadb_data:/var/lib/mysql
     env_file:
@@ -14,45 +14,56 @@ services:
       - databasepassword
       - my_sql_rootpassword
       - mysql_user
+      - mysql_database
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -p$$(cat /run/secrets/databasepassword) || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   
   wordpress:
-    image: inception-wordpress
+    image: wordpress:1337
     container_name: wordpress
     build: ./requirements/wordpress
     restart: on-failure
     networks:
-      - my_net
+      - my-net
     volumes:
       - wordpress_data:/var/www/html
     env_file:
       - .env
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    # depends_on:
+    #   - mariadb
     secrets:
       - databasepassword
       - wp_admin_password
       - wp_user_password
+      - mysql_user
+      - mysql_database
   
   nginx:
-    image: inception-nginx
+    image: nginx:1337
     container_name: nginx
     build: ./requirements/nginx
     restart: on-failure 
     networks:
-      - my_net
+      - my-net
     volumes:
       - wordpress_data:/var/www/html
-    # env_file:
-    #   - .env
-    depends_on:
-      - wordpress
     ports:
       - "443:443"
-    # secrets:
-    #   - databasepassword
-    #   - wp_admin_password
-    #   - wp_user_password
+    secrets:
+      - databasepassword
+      - wp_admin_password
+      - wp_user_password
+    env_file:
+      - .env
 
 networks:
-  my_net:
+  my-net:
     driver: bridge
 
 
@@ -63,7 +74,6 @@ volumes:
       type: none
       device: /home/ayoakouh/data/mariadb
       o: bind
-
   wordpress_data:
     driver: local
     driver_opts:
@@ -78,9 +88,10 @@ secrets:
     file: ../secrets/my_sql_rootpassword
   mysql_user:
     file: ../secrets/mysql_user
-
+  mysql_database:
+    file: ../secrets/mysql_database
   wp_admin_password:
     file: ../secrets/wp_admin_password
   wp_user_password:
     file: ../secrets/wp_user_password
-  
+
