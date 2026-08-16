@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y \
     mariadb-client \
     curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
 RUN sed -i 's|listen = /run/php/php8.2-fpm.sock|listen = 0.0.0.0:9000|g' \
     /etc/php/8.2/fpm/pool.d/www.conf
 

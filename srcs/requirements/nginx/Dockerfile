@@ -12,10 +12,14 @@ RUN openssl req -x509 -nodes -days 365 \
     -keyout /etc/nginx/ssl/inception.key \
     -out /etc/nginx/ssl/inception.crt \
     -subj "/c=/MA/ST=Beni Mellal-khenifra/L=Khouribga/0=42/OU/1337/CN=ayoakouh.42.fr"
-    
-COPY conf/inginx.conf /etc/nginx/conf.d/inginx.conf
-    
-CMD ["nginx", "-g", "daemon off;"]  
+
+Run rm -rf /etc/nginx/sites-enables/default
+
+
+COPY conf/inginx.conf /etc/nginx/conf.d/nginx.conf
+RUN chmod +x /etc/nginx/conf.d/nginx.conf
+
+CMD ["nginx", "-g", "daemon off;"]
 
 
 #must be chnge this | ;

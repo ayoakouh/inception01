@@ -15,12 +15,7 @@ services:
       - my_sql_rootpassword
       - mysql_user
       - mysql_database
-    healthcheck:
-      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -p$$(cat /run/secrets/databasepassword) || exit 1"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-  
+
   wordpress:
     image: wordpress:1337
     container_name: wordpress
@@ -33,10 +28,7 @@ services:
     env_file:
       - .env
     depends_on:
-      mariadb:
-        condition: service_healthy
-    # depends_on:
-    #   - mariadb
+      - mariadb
     secrets:
       - databasepassword
       - wp_admin_password
@@ -61,6 +53,8 @@ services:
       - wp_user_password
     env_file:
       - .env
+    depends_on:
+      - wordpress
 
 networks:
   my-net:
