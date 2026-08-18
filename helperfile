@@ -2,3 +2,100 @@ docker compose down
 docker compose build --no-cache mariadb
 docker compose up -d
 docker logs mariadb
+
+
+docker compose up
+        |
+        v
+Compose reads docker-compose.yml
+        |
+        v
+Build MariaDB image
+        |
+        v
+FROM debian:bookworm
+        |
+        v
+Install mariadb-server
+        |
+        v
+Copy script.sh
+        |
+        v
+Copy MariaDB configuration
+        |
+        v
+Create/start container
+        |
+        v
+Attach network
+        |
+        v
+Attach MariaDB volume
+        |
+        v
+Mount secrets under /run/secrets/
+        |
+        v
+ENTRYPOINT
+        |
+        v
+./script.sh
+        |
+        v
+set -e
+        |
+        v
+Read secrets
+        |
+        v
+Fix ownership of /var/lib/mysql
+        |
+        v
+Is /var/lib/mysql/mysql present?
+        |
+       / \
+     NO   YES
+     |     |
+     |     |
+     v     |
+initialize |
+MariaDB   |
+     |     |
+     v     |
+start     |
+MariaDB   |
+     |     |
+     v     |
+wait      |
+until     |
+ready     |
+     |     |
+     v     |
+CREATE DATABASE
+     |
+     v
+CREATE USER
+     |
+     v
+GRANT PRIVILEGES
+     |
+     v
+SET ROOT PASSWORD
+     |
+     v
+shutdown temporary MariaDB
+     |
+     +---------+
+               |
+               v
+     exec mysqld_safe
+               |
+               v
+        MariaDB stays alive
+apt-get update downloads the latest package indexes from the configured Debian repositories.
+but apt (advance package Tool) ===> 
+Which packages exist?
+What versions are available?
+Where can I download them?
+What dependencies do they have?

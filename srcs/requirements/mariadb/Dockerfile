@@ -12,9 +12,6 @@ RUN chmod +x /script.sh
 
 EXPOSE 3306
 
-ENTRYPOINT ["./script.sh"]
+ENTRYPOINT ["/script.sh"]
 
-
-
-# RUN chmod 644 /etc/mysql/mariadb.conf.d/50-server.cnf
 

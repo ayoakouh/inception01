@@ -1,0 +1,7 @@
+ports:
+creates host-to-container port publishing.
+1 --> why i need this keyboard "ports"  ??
+
+2 --> TLS handshake happens. ? 
+
+3 --->  rm -rf ... /var/lib/mysql/* and defrente between apt and apt-get 

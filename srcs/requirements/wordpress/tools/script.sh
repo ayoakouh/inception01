@@ -7,6 +7,7 @@ MYSQL_USER="$(cat /run/secrets/mysql_user)"
 MYSQL_PASSWORD="$(cat /run/secrets/databasepassword)"
 WP_ADMIN_PASSWORD="$(cat /run/secrets/wp_admin_password)"
 WP_USER_PASSWORD="$(cat /run/secrets/wp_user_password)"
+
 until mysqladmin -h mariadb \
     -u "$MYSQL_USER" \
     -p"$MYSQL_PASSWORD" \

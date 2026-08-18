@@ -59,8 +59,6 @@ services:
 networks:
   my-net:
     driver: bridge
-
-
 volumes:
   mariadb_data:
     driver: local

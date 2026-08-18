@@ -3,9 +3,9 @@ FROM debian:bookworm
 RUN apt-get update && \
     apt-get install -y nginx openssl && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir -p /etc/nginx/ssl
 
-RUN mkdir -p /etc/nginx/ssl
     
 RUN openssl req -x509 -nodes -days 365 \
     -newkey rsa:2048 \
@@ -13,13 +13,10 @@ RUN openssl req -x509 -nodes -days 365 \
     -out /etc/nginx/ssl/inception.crt \
     -subj "/c=/MA/ST=Beni Mellal-khenifra/L=Khouribga/0=42/OU/1337/CN=ayoakouh.42.fr"
 
-Run rm -rf /etc/nginx/sites-enables/default
 
 
-COPY conf/inginx.conf /etc/nginx/conf.d/nginx.conf
+
+COPY conf/nginx.conf /etc/nginx/conf.d/nginx.conf
 RUN chmod +x /etc/nginx/conf.d/nginx.conf
 
 CMD ["nginx", "-g", "daemon off;"]
-
-
-#must be chnge this | ;
